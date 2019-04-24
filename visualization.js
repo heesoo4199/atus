@@ -65,12 +65,18 @@ var visualize = function(data) {
         .attr("y", 0 - (config.margin.top / 2))
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
-        .style("fill", "#417cf4")
-        .text("Fighting Illini Win Percentage vs Most Played Teams");
+        .style("fill", "black")
+        .text("Activity");
 
     const line = d3.line()
         .x(d => xScale(d.time))
         .y(d => yScale(d.percentOfGroup))
+        .curve(d3.curveMonotoneX);
+
+    const area = d3.area()
+    		.x(function(d) {return xScale(d.time); })
+    		.y0(function(d) { return yScale(d.percentOfGroup); })
+    		.y1(function(d) { return yScale(0); })
         .curve(d3.curveMonotoneX);
 
     const colors = ["red", "orange", "blue", "green"];
@@ -84,6 +90,18 @@ var visualize = function(data) {
                 .attr("d", line)
                 .style("fill", "none")
                 .style("stroke", colors[i])
-                .style("stroke-width", "2px");
+                .style("stroke-width", "2px")
+                .on("mouseover", () => {
+                    var drawarea = svg.append("path")
+          		    	.datum(lineData)
+          		    	.attr("class", "area")
+          		    	.attr("d", area);
+                });
+                .on("mouseleave", () => {
+                    var drawarea = svg.append("path")
+          		    	.datum(lineData)
+          		    	.attr("class", "area")
+          		    	.attr("d", area);
+                });
     }
 };
