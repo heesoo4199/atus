@@ -1,34 +1,88 @@
 
-$(function() {
-  d3.csv("example.csv").then(function(data) {
-    console.log(data);
-
-    visualize(data);
-  });
-});
-
 const config = {
     margin: {
-        top: 50,
-        right: 50,
-        bottom: 100,
-        left: 50
+        top: 45,
+        right: 45,
+        bottom: 45,
+        left: 45
     },
     numIncomeGroups: 4
 };
 
+config.width = $(window).width() / 4 - config.margin.left - config.margin.right;
+config.height = ($(window).height() - 40) / 3 - config.margin.top - config.margin.bottom;
 
-var visualize = function(data) {
-    config.width = 400 - config.margin.left - config.margin.right;
-    config.height = 400 - config.margin.top - config.margin.bottom;
+$(function() {
+    const charts = [
+        {
+            chartId: "sleepChart",
+            title: "Sleeping",
+            activityName: "sleep"
+        },
+        {
+            chartId: "workChart",
+            title: "Working",
+            activityName: "work"
+        },
+        {
+            chartId: "tvChart",
+            title: "Watching TV",
+            activityName: "entertainment"
+        },
+        {
+            chartId: "sportChart",
+            title: "Exercise & Sports",
+            activityName: "sports"
+        },
+        {
+            chartId: "eatChart",
+            title: "Eating & Drinking",
+            activityName: "eating"
+        },
+        {
+            chartId: "educationChart",
+            title: "Education",
+            activityName: "education"
+        },
+        {
+            chartId: "familyChart",
+            title: "Family Care",
+            activityName: "family"
+        },
+        {
+            chartId: "shopChart",
+            title: "Shopping",
+            activityName: "shopping"
+        },
+        {
+            chartId: "houseChart",
+            title: "Household Activities",
+            activityName: "household"
+        },
+        {
+            chartId: "socialChart",
+            title: "Socializing",
+            activityName: "socializing"
+        },
+    ];
 
-    const svg = d3.select("#chart")
+    d3.csv("example.csv").then((data) => {
+        console.log(data);
+
+        charts.forEach((chart) => {
+            visualize(data, chart);
+        });
+    });
+});
+
+function visualize(data, chartObj) {
+    const svg = d3.select(`#${chartObj.chartId}`)
         .append("svg")
         .attr("width", config.width + config.margin.left + config.margin.right)
         .attr("height", config.height + config.margin.top + config.margin.bottom)
         .style("width", config.width + config.margin.left + config.margin.right)
         .style("height", config.height + config.margin.top + config.margin.bottom)
-        .on("mouseleave", hideAreas)
+        .on("mouseleave", () => hideAreas(chartObj.activityName))
         .append("g")
         .attr("transform", "translate(" + config.margin.left + "," + config.margin.top + ")");
 
@@ -42,22 +96,22 @@ var visualize = function(data) {
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("transform", "translate("+ (-3 * config.margin.left / 4) +","+(config.height/2)+")rotate(-90)")
-        .style("font-size", "16px")
+        .style("font-size", "12px")
         .style("font-style", "italic")
         .text("Percent of Population");
 
     svg.append("text")
         .attr("text-anchor", "middle")
-        .attr("transform", "translate("+ (config.width/2) +","+(config.height + config.margin.bottom / 2)+")")
-        .style("font-size", "16px")
+        .attr("transform", "translate("+ (config.width/2) +","+(config.height + 3 * config.margin.bottom / 4)+")")
+        .style("font-size", "12px")
         .style("font-style", "italic")
         .text("Time of Day");
 
     const xScale = d3.scaleLinear()
         .range([0, config.width])
-        .domain([0, 1440]);
+        .domain([0, 1435]);
 
-    const ticks = [0, 240, 480, 720, 960, 1200, 1440]
+    const ticks = [0, 240, 480, 720, 960, 1200, 1435];
     const tickLabels = ["12am", "4am", "8am", "12pm", "4pm", "8pm", "12am"];
 
     const bottomAxis = d3.axisBottom(xScale).ticks(1)
@@ -68,7 +122,6 @@ var visualize = function(data) {
         .attr('transform', `translate(0, ${config.height})`)
         .call(bottomAxis)
         .selectAll("text")
-        .attr("text", "hahha")
         .attr("y", 15)
         .attr("dy", ".35em");
 
@@ -78,7 +131,7 @@ var visualize = function(data) {
         .attr("text-anchor", "middle")
         .style("font-size", "18px")
         .style("fill", "black")
-        .text("Activity");
+        .text(chartObj.title);
 
     const line = d3.line()
         .x(d => xScale(d.time))
@@ -99,7 +152,7 @@ var visualize = function(data) {
 
         svg.append("path")
             .datum(lineData[i])
-            .attr("class", "area-" + i)
+            .attr("id", `${chartObj.activityName}area-${i}`)
             .attr("d", area)
             .style("fill", colors[i])
             .style("opacity", 0.2)
@@ -115,17 +168,17 @@ var visualize = function(data) {
             .style("stroke", colors[i])
             .style("stroke-width", "2px")
             .on("mouseenter", () => {
-                hideAreas();
+                hideAreas(chartObj.activityName);
 
-                d3.select(".area-" + i).style("visibility", "visible");
+                d3.select(`#${chartObj.activityName}area-${i}`).style("visibility", "visible");
             })
             .call(transition);
     }
 };
 
-function hideAreas() {
+function hideAreas(activity) {
     for (let i = 0; i < config.numIncomeGroups; i++) {
-        d3.select(".area-" + i)
+        d3.select(`#${activity}area-${i}`)
             .style("visibility", "hidden");
     }
 }

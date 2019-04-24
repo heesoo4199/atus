@@ -1,31 +1,45 @@
 h3 {
-    font-size: 15px;
-    margin-left: 10px;
+  font-size: 15px;
+  margin-left: 10px;
 }
 .name {
-    margin: 0 !important;
-    font-size: 12px;
+  margin: 0 !important;
+  font-size: 12px;
 }
 
 .key-dot {
-    display: inline-block;
-    height: 10px;
-    margin-right: .5em;
-    width: 10px;
+  display: inline-block;
+  height: 10px;
+  margin-right: .5em;
+  width: 10px;
 }
 
-.legend {
-    width: 175px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
-    border-radius: 15px;
-    border: 2px solid black;
+#legend {
+  width: 175px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border-radius: 15px;
+  border: 2px solid black;
+  text-align: left;
+
+  display: inline-block;
+  display: -moz-inline-box;
+  *display: inline;
+  zoom: 1;
+}
+
+#data-source {
+  font-size: 12px;
+}
+
+#authors {
+  margin-bottom: 5px;
 }
 
 .line {
-    margin-left: 10px;
+  margin-left: 30px;
 }
 
 .ir0 {
@@ -43,4 +57,18 @@ h3 {
 .ir3 {
   background: green;
   border-radius: 50%;
+}
+
+.row > div {
+  display: inline-block;
+  display: -moz-inline-box;
+  *display: inline;
+  zoom: 1;
+  width: 20%;
+  text-align: center;
+}
+
+.container-fluid {
+  margin-top: 20px;
+  padding-left: 25px;
 }

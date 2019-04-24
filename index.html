@@ -18,17 +18,42 @@
     <script src="visualization.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <!-- Our d3.js visualization will appear in #chart -->
-      <div class="legend">
-        <h3>Household Income</h3>
-         <div class="line"> <p class="name"><span class="key-dot ir0"></span>   0K - 50K </p> </div>
-         <div class="line"> <p class="name"><span class="key-dot ir1"></span>   50K - 100K </p> </div>
-         <div class="line"> <p class="name"><span class="key-dot ir2"></span>   100K - 150K </p> </div>
-         <div class="line"> <p class="name"><span class="key-dot ir3"></span>   150K+ </p> </div>
+
+      <div class="row">
+        <div class="chart col-sm-3" id="sleepChart"></div>
+
+        <div class="chart col-sm-6">
+          <h2>American Time Use by Income Bracket</h2>
+          <p id="authors">By Charan Sankaran, Angeeras Ramanath, Heesoo Yang, Martynas Juskelis, and Asher Dale</p>
+          <p id="data-source">Data taken from <a href="https://www.kaggle.com/bls/american-time-use-survey">https://www.kaggle.com/bls/american-time-use-survey</a></p>
+          
+          <div id="legend">
+            <h3>Household Income</h3>
+            <div class="line"> <p class="name"><span class="key-dot ir0"></span>   0K - 50K </p> </div>
+            <div class="line"> <p class="name"><span class="key-dot ir1"></span>   50K - 100K </p> </div>
+            <div class="line"> <p class="name"><span class="key-dot ir2"></span>   100K - 150K </p> </div>
+            <div class="line"> <p class="name"><span class="key-dot ir3"></span>   150K+ </p> </div>
+          </div>
+        </div>
+
+        <div class="chart col-sm-3" id="workChart"></div>
       </div>
-      <div id="chart"> </div>
+
+      <div class="row">
+        <div class="chart col-sm-3" id="tvChart"></div>
+        <div class="chart col-sm-3" id="sportChart"></div>
+        <div class="chart col-sm-3" id="eatChart"></div>
+        <div class="chart col-sm-3" id="educationChart"></div>
+      </div>
+
+      <div class="row">
+        <div class="chart col-sm-3" id="familyChart"></div>
+        <div class="chart col-sm-3" id="shopChart"></div>
+        <div class="chart col-sm-3" id="houseChart"></div>
+        <div class="chart col-sm-3" id="socialChart"></div>
+      </div>
     </div>
   </body>
-
 </html>
