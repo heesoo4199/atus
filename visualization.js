@@ -41,6 +41,16 @@ var visualize = function(data) {
     svg.append('g')
         .call(d3.axisLeft(yScale).ticks(5));
 
+    svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate("+ (-3 * config.margin.left / 4) +","+(config.height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+        .text("Percent of Population");
+
+    svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate("+ (config.width/2) +","+(config.height + config.margin.bottom / 2)+")")  // centre below axis
+        .text("Time of Day");
+
     const xScale = d3.scaleLinear()
         .range([0, config.width])
         .domain([0, 1440]);

@@ -1,0 +1,22 @@
+h3 {
+    margin-top: 15px;
+}
+.name {
+    margin: 0 !important;
+}
+
+.key-dot {
+    display: inline-block;
+    height: 10px;
+    margin-right: .5em;
+    width: 10px;
+}
+
+.legend {
+    margin-right:20px;
+}
+
+.ir0 { background: red;}
+.ir1 { background: orange;}
+.ir2 { background: blue;}
+.ir3 { background: green;}
