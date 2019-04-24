@@ -1,27 +1,24 @@
 
-// Using jQuery, read our data and call visualize(...) only once the page is ready:
 $(function() {
   d3.csv("example.csv").then(function(data) {
-    // Write the data to the console for debugging:
     console.log(data);
 
-    // Call our visualize function:
     visualize(data);
   });
 });
 
+const config = {
+    margin: {
+        top: 50,
+        right: 50,
+        bottom: 100,
+        left: 50
+    },
+    numIncomeGroups: 4
+};
+
 
 var visualize = function(data) {
-    const config = {
-        margin: {
-            top: 50,
-            right: 50,
-            bottom: 100,
-            left: 50
-        },
-        circleRadius: 5
-    };
-
     config.width = 400 - config.margin.left - config.margin.right;
     config.height = 400 - config.margin.top - config.margin.bottom;
 
@@ -31,6 +28,7 @@ var visualize = function(data) {
         .attr("height", config.height + config.margin.top + config.margin.bottom)
         .style("width", config.width + config.margin.left + config.margin.right)
         .style("height", config.height + config.margin.top + config.margin.bottom)
+        .on("mouseleave", hideAreas)
         .append("g")
         .attr("transform", "translate(" + config.margin.left + "," + config.margin.top + ")");
 
@@ -43,12 +41,12 @@ var visualize = function(data) {
 
     svg.append("text")
         .attr("text-anchor", "middle")
-        .attr("transform", "translate("+ (-3 * config.margin.left / 4) +","+(config.height/2)+")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+        .attr("transform", "translate("+ (-3 * config.margin.left / 4) +","+(config.height/2)+")rotate(-90)")
         .text("Percent of Population");
 
     svg.append("text")
         .attr("text-anchor", "middle")
-        .attr("transform", "translate("+ (config.width/2) +","+(config.height + config.margin.bottom / 2)+")")  // centre below axis
+        .attr("transform", "translate("+ (config.width/2) +","+(config.height + config.margin.bottom / 2)+")")
         .text("Time of Day");
 
     const xScale = d3.scaleLinear()
@@ -90,28 +88,40 @@ var visualize = function(data) {
         .curve(d3.curveMonotoneX);
 
     const colors = ["red", "orange", "blue", "green"];
+    const lineData = [];
 
-    for (let i = 0; i < 4; i++) {
-        const lineData = data.filter(row => row.incomeLevel == i);
+    for (let i = 0; i < config.numIncomeGroups; i++) {
+        lineData.push(data.filter(row => row.incomeLevel == i));
 
         svg.append("path")
-                .data([lineData])
+            .datum(lineData[i])
+            .attr("class", "area-" + i)
+            .attr("d", area)
+            .style("fill", colors[i])
+            .style("opacity", 0.2)
+            .style("visibility", "hidden");
+    }
+
+    for (let i = 0; i < config.numIncomeGroups; i++) {
+        svg.append("path")
+                .data([lineData[i]])
                 .attr("class", "line")
                 .attr("d", line)
                 .style("fill", "none")
                 .style("stroke", colors[i])
                 .style("stroke-width", "2px")
-                .on("mouseover", () => {
-                    var drawarea = svg.append("path")
-          		    	.datum(lineData)
-          		    	.attr("class", "area")
-          		    	.attr("d", area);
-                });
-                .on("mouseleave", () => {
-                    var drawarea = svg.append("path")
-          		    	.datum(lineData)
-          		    	.attr("class", "area")
-          		    	.attr("d", area);
+                .on("mouseenter", () => {
+                    hideAreas();
+
+                    d3.select(".area-" + i)
+                        .style("visibility", "visible");
                 });
     }
 };
+
+function hideAreas() {
+    for (let i = 0; i < config.numIncomeGroups; i++) {
+        d3.select(".area-" + i)
+            .style("visibility", "hidden");
+    }
+}
