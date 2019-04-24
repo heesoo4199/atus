@@ -1,7 +1,7 @@
 
 // Using jQuery, read our data and call visualize(...) only once the page is ready:
 $(function() {
-  d3.csv("football.csv").then(function(data) {
+  d3.csv("example.csv").then(function(data) {
     // Write the data to the console for debugging:
     console.log(data);
 
@@ -25,7 +25,7 @@ var visualize = function(data) {
     config.width = 400 - config.margin.left - config.margin.right;
     config.height = 400 - config.margin.top - config.margin.bottom;
       
-    const svg = d3.select(chartId)
+    const svg = d3.select("#chart")
         .append("svg")
         .attr("width", config.width + config.margin.left + config.margin.right)
         .attr("height", config.height + config.margin.top + config.margin.bottom)
@@ -36,25 +36,29 @@ var visualize = function(data) {
 
     const yScale = d3.scaleLinear()
         .range([config.height, 0])
-        .domain([0, 5]);
+        .domain([0, 100]);
 
     svg.append('g')
         .call(d3.axisLeft(yScale).ticks(5));
 
-    const xScale = d3.scaleBand()
-        .range([0, width])
-        .domain(data.map((row) => row.opp))
-        .padding(0.2)
+    const xScale = d3.scaleLinear()
+        .range([0, config.width])
+        .domain([0, 1440]);
+
+    const ticks = [0, 720]
+    const tickLabels = ["12am", "12pm"];
+
+    const bottomAxis = d3.axisBottom(xScale).ticks(1)
+        .tickValues(ticks)
+        .tickFormat((d, i) => tickLabels[i]);
 
     svg.append('g')
-        .attr('transform', `translate(0, ${height})`)
-        .call(d3.axisBottom(xScale))
+        .attr('transform', `translate(0, ${config.height})`)
+        .call(bottomAxis)
         .selectAll("text")
-        .attr("y", 0)
-        .attr("x", 9)
-        .attr("dy", ".35em")
-        .attr("transform", "rotate(45)")
-        .style("text-anchor", "start");
+        .attr("text", "hahha")
+        .attr("y", 15)
+        .attr("dy", ".35em");
 
     svg.selectAll()
         .data(data)
@@ -62,15 +66,14 @@ var visualize = function(data) {
         .append('rect')
         .attr('x', (row) => xScale(row.opp))
         .attr('y', (row) => yScale(row.ratio))
-        .attr('height', (row) => height - yScale(row.ratio))
+        .attr('height', (row) => config.height - yScale(row.ratio))
         .attr('width', xScale.bandwidth());
 
     svg.append("text")
-        .attr("x", (width / 2))             
-        .attr("y", 0 - (margin.top / 2))
+        .attr("x", (config.width / 2))             
+        .attr("y", 0 - (config.margin.top / 2))
         .attr("text-anchor", "middle")  
         .style("font-size", "18px")
         .style("fill", "#417cf4")
-        .style("text-decoration", "underline")  
         .text("Fighting Illini Win Percentage vs Most Played Teams");
 };
