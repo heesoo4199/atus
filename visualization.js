@@ -24,7 +24,7 @@ var visualize = function(data) {
 
     config.width = 400 - config.margin.left - config.margin.right;
     config.height = 400 - config.margin.top - config.margin.bottom;
-      
+
     const svg = d3.select("#chart")
         .append("svg")
         .attr("width", config.width + config.margin.left + config.margin.right)
@@ -45,8 +45,8 @@ var visualize = function(data) {
         .range([0, config.width])
         .domain([0, 1440]);
 
-    const ticks = [0, 720]
-    const tickLabels = ["12am", "12pm"];
+    const ticks = [0, 240, 480, 720, 960, 1200, 1440]
+    const tickLabels = ["12am", "4am", "8am", "12pm", "4pm", "8pm", "12am"];
 
     const bottomAxis = d3.axisBottom(xScale).ticks(1)
         .tickValues(ticks)
@@ -70,9 +70,9 @@ var visualize = function(data) {
         .attr('width', xScale.bandwidth());
 
     svg.append("text")
-        .attr("x", (config.width / 2))             
+        .attr("x", (config.width / 2))
         .attr("y", 0 - (config.margin.top / 2))
-        .attr("text-anchor", "middle")  
+        .attr("text-anchor", "middle")
         .style("font-size", "18px")
         .style("fill", "#417cf4")
         .text("Fighting Illini Win Percentage vs Most Played Teams");
