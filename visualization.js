@@ -60,15 +60,6 @@ var visualize = function(data) {
         .attr("y", 15)
         .attr("dy", ".35em");
 
-    svg.selectAll()
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('x', (row) => xScale(row.opp))
-        .attr('y', (row) => yScale(row.ratio))
-        .attr('height', (row) => config.height - yScale(row.ratio))
-        .attr('width', xScale.bandwidth());
-
     svg.append("text")
         .attr("x", (config.width / 2))             
         .attr("y", 0 - (config.margin.top / 2))
@@ -76,4 +67,18 @@ var visualize = function(data) {
         .style("font-size", "18px")
         .style("fill", "#417cf4")
         .text("Fighting Illini Win Percentage vs Most Played Teams");
+
+    const line = d3.line()
+        .x(d => xScale(d.x))
+        .y(d => yScale(d.y))
+        .curve(d3.curveMonotoneX);
+
+    var dataset = d3.range(36).map((d) => { return {"x": d * 40, "y": Math.floor(Math.random() * Math.floor(100)) } })
+
+    console.log(dataset)
+
+    svg.append("path")
+        .data([dataset])
+        .attr("class", "line")
+        .attr("d", line);
 };
