@@ -69,16 +69,21 @@ var visualize = function(data) {
         .text("Fighting Illini Win Percentage vs Most Played Teams");
 
     const line = d3.line()
-        .x(d => xScale(d.x))
-        .y(d => yScale(d.y))
+        .x(d => xScale(d.time))
+        .y(d => yScale(d.percentOfGroup))
         .curve(d3.curveMonotoneX);
 
-    var dataset = d3.range(36).map((d) => { return {"x": d * 40, "y": Math.floor(Math.random() * Math.floor(100)) } })
+    const colors = ["red", "orange", "blue", "green"];
 
-    console.log(dataset)
+    for (let i = 0; i < 4; i++) {
+        const lineData = data.filter(row => row.incomeLevel == i);
 
-    svg.append("path")
-        .data([dataset])
-        .attr("class", "line")
-        .attr("d", line);
+        svg.append("path")
+                .data([lineData])
+                .attr("class", "line")
+                .attr("d", line)
+                .style("fill", "none")
+                .style("stroke", colors[i])
+                .style("stroke-width", "2px");
+    }
 };

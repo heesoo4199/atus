@@ -1,4 +1,4 @@
-activity,income_level,time,percent_of_group
+activity,incomeLevel,time,percentOfGroup
 sleeping,0,0,80
 sleeping,0,60,85
 sleeping,0,120,75
