@@ -1,8 +1,10 @@
 h3 {
-    margin-top: 15px;
+    font-size: 15px;
+    margin-left: 10px;
 }
 .name {
     margin: 0 !important;
+    font-size: 12px;
 }
 
 .key-dot {
@@ -13,10 +15,32 @@ h3 {
 }
 
 .legend {
-    margin-right:20px;
+    width: 175px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 15px;
+    border: 2px solid black;
 }
 
-.ir0 { background: red;}
-.ir1 { background: orange;}
-.ir2 { background: blue;}
-.ir3 { background: green;}
+.line {
+    margin-left: 10px;
+}
+
+.ir0 {
+  background: red;
+  border-radius: 50%;
+}
+.ir1 {
+  background: orange;
+  border-radius: 50%;
+}
+.ir2 {
+  background: blue;
+  border-radius: 50%;
+}
+.ir3 {
+  background: green;
+  border-radius: 50%;
+}
