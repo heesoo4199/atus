@@ -95,12 +95,8 @@ var visualize = function(data) {
                     var drawarea = svg.append("path")
           		    	.datum(lineData)
           		    	.attr("class", "area")
-          		    	.attr("d", area);
-                });
-                .on("mouseleave", () => {
-                    var drawarea = svg.append("path")
-          		    	.datum(lineData)
-          		    	.attr("class", "area")
+                    .style("fill", colors[i])
+                    .style("opacity", 0.2)
           		    	.attr("d", area);
                 });
     }

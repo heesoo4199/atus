@@ -13,13 +13,21 @@
     <!-- d3.js -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
 
+    <link rel="stylesheet"  href="style.css">
     <!-- Our visualization code -->
     <script src="visualization.js"></script>
   </head>
   <body>
     <div class="container">
       <!-- Our d3.js visualization will appear in #chart -->
-      <div id="chart"></div>
+      <div class="legend">
+        <h3>American Time Use by Income</h3>
+         <div class="legend"> <p class="name"><span class="key-dot ir0"></span>0K-50K</p> </div>
+         <div class="legend"> <p class="name"><span class="key-dot ir1"></span>50K-100K</p> </div>
+         <div class="legend"> <p class="name"><span class="key-dot ir2"></span>100K-150K</p> </div>
+         <div class="legend"> <p class="name"><span class="key-dot ir3"></span>150K+</p> </div>
+      </div>
+      <div id="chart"> </div>
     </div>
   </body>
 
