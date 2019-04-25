@@ -66,16 +66,16 @@ $(function() {
         },
     ];
 
-    d3.csv("example.csv").then((data) => {
-        console.log(data);
-
+    d3.csv("data/aggregate-all.csv").then((data) => {
         charts.forEach((chart) => {
-            visualize(data, chart);
+            chart.data = data.filter(row => row.activity == chart.activityName);
+
+            visualize(chart);
         });
     });
 });
 
-function visualize(data, chartObj) {
+function visualize(chartObj) {
     const svg = d3.select(`#${chartObj.chartId}`)
         .append("svg")
         .attr("width", config.width + config.margin.left + config.margin.right)
@@ -88,7 +88,7 @@ function visualize(data, chartObj) {
 
     const yScale = d3.scaleLinear()
         .range([config.height, 0])
-        .domain([0, 100]);
+        .domain([0, 1]);
 
     svg.append('g')
         .call(d3.axisLeft(yScale).ticks(5));
@@ -148,7 +148,12 @@ function visualize(data, chartObj) {
     const lineData = [];
 
     for (let i = 0; i < config.numIncomeGroups; i++) {
-        lineData.push(data.filter(row => row.incomeLevel == i));
+        lineData.push(chartObj.data
+            .filter(row => row.time % 30 == 0)
+            .map(row => {
+                return {time: row.time, percentOfGroup: row[`percent_${i}`]}
+            })
+        );
 
         svg.append("path")
             .datum(lineData[i])
